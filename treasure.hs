@@ -1,5 +1,6 @@
 import System.IO
 import Data.Char
+import System.Exit
 
 markMap :: [[Char]] -> Int -> Int -> Char -> [[Char]]
 markMap [] i j c = []
@@ -33,14 +34,26 @@ depthFirst i j direction (map,rst)
     where marked_map = markMap map i j '+'
           isDead = deadEnd i j map
 
+mapWidth :: [[Char]] -> Int
+mapWidth [] = 0
+mapWidth (x:xs)
+    | length xs == 0 = length x
+    | length x /= length (xs!!0) = -1
+    | otherwise = mapWidth(xs)
+
 main = do
     strMap <- readFile "map.txt"
-    putStr "This is my challenge:\n\n"
+    putStr "This is my challenge:\n"
     let m = lines strMap
     mapM_ putStrLn m
+    if mapWidth m < 0 then 
+        do 
+            putStrLn "\nInvalid map! Please make sure every row has the same size!\n"
+            exitFailure  
+        else  
+            putStrLn ""
     let (m',rst) = depthFirst 0 0 1 (m,0)
-    if rst > 0
-        then putStrLn "Woo hoo, I found the treasure :-)\n"
+    if rst > 0 then putStrLn "Woo hoo, I found the treasure :-)\n"
         else putStrLn "Uh oh, I could not find the treasure :-(\n"
     mapM_ putStrLn m'
 
