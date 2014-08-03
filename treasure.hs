@@ -40,7 +40,7 @@ main = do
     mapM_ putStrLn m
     let (m',rst) = depthFirst 0 0 1 (m,0)
     if rst > 0
-        then putStrLn "Woo hoo, I found the treasure :-)"
-        else putStrLn "Uh oh, I could not find the treasure :-("
+        then putStrLn "Woo hoo, I found the treasure :-)\n"
+        else putStrLn "Uh oh, I could not find the treasure :-(\n"
     mapM_ putStrLn m'
 
